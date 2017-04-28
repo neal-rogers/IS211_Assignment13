@@ -1,18 +1,19 @@
-DROP TABLE IF EXISTS Artist;
-DROP TABLE IF EXISTS Albums;
-DROP TABLE IF EXISTS Songs;
+DROP TABLE IF EXISTS Students;
+DROP TABLE IF EXISTS Quiz;
+DROP TABLE IF EXISTS Results;
 
-CREATE TABLE Artist
+CREATE TABLE Students
 (
-    artist_id int PRIMARY KEY,
-    artist varchar NOT NULL
+    firstname text PRIMARY KEY,
+    lastname text
     );
 
-CREATE TABLE Albums
+CREATE TABLE Quiz
 (
-    album_id int PRIMARY KEY,
-    artist_id int NOT NULL REFERENCES Artist(artist_id)
-    album_title varchar NOT NULL
+    id int PRIMARY KEY,
+    subject text,
+    questions int,
+    qdate date
     );
 
 CREATE TABLE Songs
