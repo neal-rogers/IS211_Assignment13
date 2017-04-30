@@ -1,10 +1,11 @@
 CREATE TABLE Students
 (
-    firstname text PRIMARY KEY,
+    id int PRIMARY KEY,
+    firstname text,
     lastname text
     );
 
-CREATE TABLE Quiz
+CREATE TABLE Quizzes
 (
     id int PRIMARY KEY,
     subject text,

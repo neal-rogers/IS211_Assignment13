@@ -8,33 +8,20 @@ import sys
 
 con = lite.connect('hw13.db')
 
-person = (
-    (1, 'James', 'Smith', 41),
-    (2, 'Diana', 'Greene', 23),
-    (3, 'Sara', 'White', 27),
-    (4, 'William', 'Gibson', 23)
+Students = (
+    (1, 'John','Smith')
 )
 
-pet = (
-    (1, 'Rusty', 'Dalmation', 4, 1),
-    (2, 'Bella', 'Alaskan Malamute', 3, 0),
-    (3, 'Max', 'Cocker Spaniel', 1, 0),
-    (4, 'Rocky', 'Beagle', 7, 0),
-    (5, 'Rufus', 'Cocker Spaniel', 1, 0),
-    (6, 'Spot', 'Bloodhound', 2, 1)
+Quizzes = (
+    (1, 'Python Basics', 5, '02/05/2015')
 )
 
-person_pet = (
-    (1, 1),
-    (1, 2),
-    (2, 3),
-    (2, 4),
-    (3, 5),
-    (4, 6)
+Results = (
+    (1, 1, 1, 85)
 )
 
 with con:
     cur = con.cursor()
-    cur.executemany('INSERT INTO person VALUES(?, ?, ?, ?)', person)
-    cur.executemany('INSERT INTO pet VALUES(?, ?, ?, ?, ?)', pet)
-    cur.executemany('INSERT INTO person_pet VALUES(?, ?)', person_pet)
+    cur.executemany('INSERT INTO Students VALUES(?, ?, ?)', Students)
+    cur.executemany('INSERT INTO Quizzes VALUES(?, ?, ?, ?)', Quizzes)
+    cur.executemany('INSERT INTO Results VALUES(?, ?, ?, ?)', Results)
