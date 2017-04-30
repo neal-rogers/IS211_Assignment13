@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grad</title>
+</head>
+<body>
+    <style>
+        * {
+        font-family: sans-serif;
+        background-color: #FFF;
+        margin: 0 auto;
+        }
+
+        body {
+        text-align: center;
+        }
+
+        h1 {
+        font-size: 1.5em;
+        }
+
+        table, th, td {
+        max-width: 33%;
+        border: 1px solid black;
+        padding: 1em;
+        }
+
+        .container {
+        }
+
+    </style>
+        <div class="container">
+              <h1>Login</h1>
+              {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+              <form action="{{ url_for('login') }}" method=post>
+                <dl>
+                  <dt>Username:
+                  <dd><input type=text name=username>
+                  <dt>Password:
+                  <dd><input type=password name=password>
+                  <dd><input type=submit value=Login>
+                </dl>
+              </form>
+        </div>
+</body>
+</html>
