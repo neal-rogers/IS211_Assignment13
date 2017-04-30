@@ -1,7 +1,3 @@
-DROP TABLE IF EXISTS Students;
-DROP TABLE IF EXISTS Quiz;
-DROP TABLE IF EXISTS Results;
-
 CREATE TABLE Students
 (
     firstname text PRIMARY KEY,
@@ -16,12 +12,10 @@ CREATE TABLE Quiz
     qdate date
     );
 
-CREATE TABLE Songs
+CREATE TABLE Results
 (
-    song_id int PRIMARY KEY,
-    song_title varchar NOT NULL
-    album_id int NOT NULL REFERENCES Albums(album_id)
-    artist_id int NOT NULL REFERENCES Artist(artist_id)
-    track_number int NOT NULL
-    track_length varchar
+    id int PRIMARY KEY,
+    quizid int,
+    studentid int,
+    grade float
     );
