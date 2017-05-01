@@ -12,8 +12,8 @@
     </form>
   {% endif %}
   <ul class=entries>
-  {% for entry in entries %}
-    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+  {% for student in Students %}
+    <li><h2>{{ student.lastname }}</h2>{{ student.firstname }}
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em>
   {% endfor %}

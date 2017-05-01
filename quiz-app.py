@@ -3,9 +3,13 @@
 """This program does stuff."""
 
 import sqlite3
-from flask import Flask, render_template, request, redirect
+from flask import Flask, request, session, g, redirect, url_for, \
+     abort, render_template, flash
 from contextlib import closing
 app = Flask(__name__)
+
+USERNAME = 'admin'
+PASSWORD = 'password'
 
 def init_db():
     with closing(connect_db()) as db:
@@ -32,9 +36,11 @@ def login():
 
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('select title, text from entries order by id desc')
-    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('show_entries.html', entries=entries)
+    cur1 = g.db.execute('select id, firstname, lastname from Students')
+    students = [dict(firstname=row[1], lastname=row[1]) for row in cur1.fetchall()]
+    cur2 = g.db.execute('select id, subject, questions, qdate from Quizzes')
+    quizzes =
+    return render_template('show_entries.html', students=students, quizzes=quizzes)
 
 @app.route('/student/add', methods=['POST'])
 def add_entry():
@@ -45,3 +51,6 @@ def add_entry():
     g.db.commit()
     flash('New student record was successfully added.')
     return redirect(url_for('show_entries'))
+
+if __name__ == '__main__':
+    app.run()
