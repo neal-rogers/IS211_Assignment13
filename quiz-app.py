@@ -7,6 +7,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
 from contextlib import closing
 
+DATABASE = 'hw13.db'
 USERNAME = 'admin'
 PASSWORD = 'password'
 
@@ -14,7 +15,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 def connect_db():
-    return sqlite3.connect(app.config['hw13.db'])
+    return sqlite3.connect(app.config['DATABASE'])
 
 def init_db():
     with closing(connect_db()) as db:
