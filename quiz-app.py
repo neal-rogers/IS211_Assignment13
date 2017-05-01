@@ -6,10 +6,15 @@ import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
 from contextlib import closing
-app = Flask(__name__)
 
 USERNAME = 'admin'
 PASSWORD = 'password'
+
+app = Flask(__name__)
+app.config.from_object(__name__)
+
+def connect_db():
+    return sqlite3.connect(app.config['hw13.db'])
 
 def init_db():
     with closing(connect_db()) as db:
@@ -17,8 +22,19 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
-def connect_db():
-    return sqlite3.connect(app.config['hw13.db'])
+@app.before_request
+def before_request():
+    g.db = connect_db()
+
+@app.teardown_request
+def teardown_request(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,12 +50,14 @@ def login():
             return redirect(url_for('show_entries'))
     return render_template('login.html', error=error)
 
-@app.route('/')
+@app.route('/dashboard')
 def show_entries():
     cur1 = g.db.execute('select id, firstname, lastname from Students')
     students = [dict(firstname=row[1], lastname=row[1]) for row in cur1.fetchall()]
     cur2 = g.db.execute('select id, subject, questions, qdate from Quizzes')
-    quizzes =
+    cur2 = g.db.execute('select ID, subject, questions, testDate from Quizzes')
+    quizzes = [dict(subject=row[1], questions=row[2], qate=row[3])
+               for row in cur2.fetchall()]
     return render_template('show_entries.html', students=students, quizzes=quizzes)
 
 @app.route('/student/add', methods=['POST'])
