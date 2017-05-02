@@ -24,4 +24,4 @@ CREATE TABLE Results (
 
 INSERT INTO Students VALUES(Null, 'John', 'Smith');
 INSERT INTO Quizzes VALUES(Null,'Python Basics', 5, '2/05/2015');
-INSERT INTO Results VALUES(Null, );
+INSERT INTO Results VALUES(Null,(select ID from Quizzes where subject = 'Python Basics'),(select ID from Students where firstName = 'John' and lastName = 'Smith'),85;
