@@ -1,19 +1,39 @@
 {% extends "layout.html" %}
 {% block body %}
+{% if session.logged_in %}
         <h1>Students</h1>
             <ul class=entries>
                 {% for student in Students %}
                 <li>{{ student.lastname }}, {{ student.firstname }}
                     {% else %}
-                <li><em>Unbelievable.  No entries here so far</em>
+                        <li><em>Unbelievable.  No entries here so far</em>
                 {% endfor %}
             </ul>
         <h1>Quizzes</h1>
             <ul class=entries>
-                {% for student in Students %}
+                {% for quiz in Quizzes %}
                 <li>{{ quiz.subject }}, {{ quiz.questions}}, {{ quiz.qdate }}
                     {% else %}
-                <li><em>Unbelievable.  No entries here so far</em>
+                        <li><em>Unbelievable.  No entries here so far</em>
                 {% endfor %}
             </ul>
+        <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+            <dl>
+                <dt>Title:
+                <dd><input type=text size=30 name=title>
+                <dt>Text:
+                <dd><textarea name=text rows=5 cols=40></textarea>
+                <dd><input type=submit value=Submit>
+            </dl>
+        </form>
+        <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+            <dl>
+                <dt>Title:
+                <dd><input type=text size=30 name=title>
+                <dt>Text:
+                <dd><textarea name=text rows=5 cols=40></textarea>
+                <dd><input type=submit value=Submit>
+            </dl>
+        </form>
+{% endif %}
 {% endblock %}

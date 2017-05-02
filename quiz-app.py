@@ -33,7 +33,7 @@ def before_request():
 
 @app.teardown_request
 def teardown_request(exception):
-    db = getattr(g, 'hw13', None)
+    db = getattr(g, 'db', None)
     if db is not None:
         db.close()
 
@@ -80,54 +80,6 @@ def add_entry():
     g.db.commit()
     flash('New student record was successfully added.')
     return redirect(url_for('show_entries'))
-
-@app.route('/student/<id>')
-def student_results(id):
-     msg = None
-     cur = g.db.execute('select quiz, grade from Results where student=?',
-                        (id,))
-     results = [dict(quiz=row[0],grade=row[1]) for row in cur.fetchall()]
-     if not results:
-         msg = 'No results'
-     return render_template('student_results.html',results=results,msg=msg)
-
-@app.route('/quiz/add', methods=['GET','POST'])
-def add_quiz():
-     if request.method == 'POST':
-         if not session.get('logged_in'):
-             abort(401)
-         g.db.execute('insert into Quizzes (subject'\
-                                      ', questions, testDate) '\
-                                      'values (?, ?, ?)',
-                      [request.form['subject']
-                       , request.form['questions']
-                       , request.form['testDate']])
-         g.db.commit()
-         flash('New quiz successfully posted')
-         return redirect(url_for('show_entries'))
-     return render_template('add_quiz.html')
-
-@app.route('/results/add', methods=['GET','POST'])
-def add_result():
-    cur1 = g.db.execute('select id from Students')
-    students = [dict(ID=row[0]) for row in cur1.fetchall()]
-    cur2 = g.db.execute('select di from Quizzes')
-    quizzes = [dict(ID=row[0]) for row in cur2.fetchall()]
-    if request.method == 'POST':
-        if not session.get('logged_in'):
-            abort(401)
-        g.db.execute(
-    'insert into Results (quiz,student,grade) values (?,?,?)',
-            (
-                request.form.get('Quiz'),
-                request.form.get('Student'),
-                request.form.get('grade')
-            )
-        )
-        g.db.commit()
-        flash('New result successfully posted')
-        return redirect(url_for('show_entries'))
-    return render_template('add_result.html',students=students,quizzes=quizzes)
 
 if __name__ == '__main__':
     app.run()
